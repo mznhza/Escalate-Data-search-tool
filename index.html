@@ -13,20 +13,17 @@ body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-s
 .topbar h1 { font-size: 17px; font-weight: 800; }
 .topbar span { font-size: 12px; font-weight: 500; margin-left: auto; opacity: 0.85; }
 
-.debug-box { background: #fffde7; border: 2px solid #f9a825; border-radius: 10px; margin: 14px 18px; padding: 14px 16px; font-size: 12px; font-family: 'Courier New', monospace; color: #333; white-space: pre-wrap; word-break: break-all; display: none; max-height: 200px; overflow-y: auto; }
-.debug-box.show { display: block; }
-.debug-title { font-family: 'Nunito', sans-serif; font-weight: 800; color: #f57f17; font-size: 12.5px; margin-bottom: 6px; }
-
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; }
 .modal-bg.open { display: flex; }
 .modal { background: #fff; border-radius: 16px; padding: 28px; width: 90%; max-width: 640px; box-shadow: 0 8px 40px rgba(0,0,0,0.22); }
 .modal h2 { font-size: 16px; font-weight: 800; color: #0277bd; margin-bottom: 6px; }
 .modal p { font-size: 12.5px; color: #667; margin-bottom: 12px; font-weight: 600; line-height: 1.6; }
-.modal textarea { width: 100%; height: 180px; border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 10px 12px; font-size: 12px; font-family: 'Courier New', monospace; resize: vertical; outline: none; color: #222; background: #f5faff; }
+.modal textarea { width: 100%; height: 160px; border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 10px 12px; font-size: 12px; font-family: 'Courier New', monospace; resize: vertical; outline: none; color: #222; background: #f5faff; }
 .modal textarea:focus { border-color: #0277bd; }
 .modal-btns { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; }
-.btn-primary { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.btn-primary { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; }
 .btn-primary:hover { background: #01579b; }
+.btn-primary:disabled { background: #90caf9; cursor: not-allowed; }
 .btn-secondary { background: #f0f4f8; color: #667; border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
 .sep { display: flex; align-items: center; gap: 10px; margin: 14px 0; }
 .sep span { font-size: 11px; color: #aac; font-weight: 700; white-space: nowrap; }
@@ -38,6 +35,13 @@ body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-s
 .fmt-tab { border: 1.5px solid #c5d8e8; background: #f5faff; border-radius: 8px; padding: 4px 14px; font-size: 12px; font-weight: 700; cursor: pointer; color: #667; font-family: inherit; }
 .fmt-tab.active { background: #0277bd; border-color: #0277bd; color: #fff; }
 
+/* 进度条 */
+.progress-wrap { margin-top: 12px; display: none; }
+.progress-wrap.show { display: block; }
+.progress-bar-bg { background: #e1f5fe; border-radius: 8px; height: 10px; overflow: hidden; }
+.progress-bar-fill { background: #0277bd; height: 100%; border-radius: 8px; width: 0%; transition: width 0.2s; }
+.progress-label { font-size: 11.5px; color: #0277bd; font-weight: 700; margin-top: 5px; text-align: center; }
+
 .filter-bar { background: #fff; border-bottom: 2.5px solid #0277bd; padding: 12px 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
 .fg { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
 .fg label { font-size: 10.5px; font-weight: 800; color: #0277bd; text-transform: uppercase; letter-spacing: 0.08em; }
@@ -48,13 +52,13 @@ body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-s
 .btn-clear:hover { background: #b3e5fc; }
 
 .upload-bar { background: #f7f9fc; border-bottom: 1px solid #dde3ea; padding: 9px 18px; display: flex; align-items: center; gap: 12px; }
-.upload-btn { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; }
+.upload-btn { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; }
 .upload-btn:hover { background: #01579b; }
 .upload-name { font-size: 12.5px; color: #0277bd; font-weight: 700; }
 .stats { margin-left: auto; font-size: 12px; color: #667; font-weight: 600; }
 .stats strong { color: #111; font-weight: 800; }
 
-.tbl-outer { overflow: auto; max-height: calc(100vh - 200px); border-top: 1px solid #ccd6e0; }
+.tbl-outer { overflow: auto; max-height: calc(100vh - 165px); border-top: 1px solid #ccd6e0; }
 table { border-collapse: collapse; font-size: 12.5px; min-width: 100%; background: #fff; }
 thead tr th { background: #0277bd; color: #fff; font-weight: 800; padding: 8px 11px; border: 1px solid #01579b; white-space: nowrap; position: sticky; top: 0; z-index: 10; text-align: left; font-size: 12px; cursor: pointer; user-select: none; font-family: inherit; }
 thead tr th:hover { background: #01579b; }
@@ -113,11 +117,6 @@ tbody tr.selected td { background: #b3e5fc !important; }
   <div class="stats">显示 <strong id="showCount">0</strong> / <strong id="totalCount">0</strong> 条 &nbsp;|&nbsp; 第 <strong id="pgCur">—</strong> / <strong id="pgTotal">—</strong> 页</div>
 </div>
 
-<div class="debug-box" id="debugBox">
-  <div class="debug-title">�� 调试信息（帮助排查问题）</div>
-  <div id="debugContent"></div>
-</div>
-
 <div class="tbl-outer" id="tblOuter">
   <table>
     <thead>
@@ -164,9 +163,13 @@ tbody tr.selected td { background: #b3e5fc !important; }
       <button class="fmt-tab" onclick="setFmt('json',this)">JSON</button>
     </div>
     <textarea id="pasteArea" placeholder="在此粘贴数据内容..."></textarea>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">处理中...</div>
+    </div>
     <div class="modal-btns">
       <button class="btn-secondary" onclick="closeModal()">取消</button>
-      <button class="btn-primary" onclick="loadData()">✓ 确认导入</button>
+      <button class="btn-primary" id="importBtn" onclick="loadData()">✓ 确认导入</button>
     </div>
   </div>
 </div>
@@ -174,62 +177,61 @@ tbody tr.selected td { background: #b3e5fc !important; }
 <script>
 var allData=[], filteredData=[], currentPage=1, PAGE=50, sortCol='', sortAsc=true, fmt='csv';
 
-function debugLog(msg) {
-  var box=document.getElementById('debugBox');
-  var content=document.getElementById('debugContent');
-  box.classList.add('show');
-  content.textContent += msg + '\n';
-}
-function clearDebug() { document.getElementById('debugContent').textContent=''; }
+// ── 列名映射 ──
+var COL_MAP = {
+  'tt_link':'tt_link','ttlink':'tt_link','ctlink':'tt_link',
+  'asin':'asin',
+  'img_url':'img_url','imgurl':'img_url','imageurl':'img_url',
+  'keywords':'keywords','keyword':'keywords',
+  'question':'question',
+  'ri_comment':'ri_comment','ricomment':'ri_comment',
+  'comment':'comment',
+  'product_type':'product_type','producttype':'product_type','pt':'product_type',
+  'create_user':'create_user','createuser':'create_user',
+  'title':'title',
+  'pt_qrd_link':'pt_qrd_link','ptqrdlink':'pt_qrd_link'
+};
+var SKIP_COLS = {'no':1,'index':1,'row':1,'ct':1,'':1};
 
-// 关键修复：自动检测分隔符，全部用 String() 强制转换
+function mapCol(h) {
+  var clean = String(h).trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  if (SKIP_COLS[clean]) return null;
+  return COL_MAP[clean] || String(h).trim().toLowerCase().replace(/\s+/g,'_');
+}
+
 function detectSep(txt) {
-  var lines = txt.split(/\r?\n/);
-  var firstLine = '';
-  for (var i = 0; i < lines.length; i++) {
-    if (lines[i].trim()) { firstLine = String(lines[i]); break; }
-  }
-  var tabCount = (firstLine.match(/\t/g) || []).length;
-  var commaCount = (firstLine.match(/,/g) || []).length;
-  debugLog('�� 第一行Tab数: ' + tabCount + ', 逗号数: ' + commaCount);
-  return tabCount > commaCount ? '\t' : ',';
+  var nl = txt.indexOf('\n');
+  var firstLine = nl >= 0 ? txt.substring(0, nl) : txt.substring(0, 500);
+  var tabs = (firstLine.match(/\t/g)||[]).length;
+  var commas = (firstLine.match(/,/g)||[]).length;
+  return tabs > commas ? '\t' : ',';
 }
 
+// ── 文件选择 ──
 document.getElementById('fileInputModal').onchange = function(e) {
   var file = e.target.files;
   if (!file) return;
-  clearDebug();
-  debugLog('�� 文件: ' + file.name + ' (' + file.size + ' bytes)');
   var reader = new FileReader();
   reader.onload = function(ev) {
-    try {
-      var txt = String(ev.target.result);
-      debugLog('✅ 读取成功，长度: ' + txt.length);
-      debugLog('�� 前200字符:\n' + txt.substring(0, 200));
-      var ext = file.name.split('.').pop().toLowerCase();
-      if (ext === 'json') {
-        allData = JSON.parse(txt);
-        if (!Array.isArray(allData)) allData = [allData];
-      } else {
-        var sep = detectSep(txt);
-        debugLog('✔️ 使用分隔符: ' + (sep==='\t'?'Tab':'逗号'));
-        allData = parseDelimited(txt, sep);
-      }
-      debugLog('�� 解析行数: ' + allData.length);
-      if (allData.length > 0) {
-        debugLog('��️ 列名: ' + Object.keys(allData).join(', '));
-        debugLog('�� 第一行: ' + JSON.stringify(allData).substring(0, 300));
-      }
-      document.getElementById('uploadName').textContent = '✓ ' + file.name;
-      closeModal();
-      applyFilters();
-      showToast('✓ 已加载 ' + allData.length + ' 条数据');
-    } catch(err) {
-      debugLog('❌ 错误: ' + err.message);
-      showToast('❌ 解析失败: ' + err.message);
-    }
+    var txt = String(ev.target.result || '');
+    var ext = file.name.split('.').pop().toLowerCase();
+    setProgress(0, '解析中...');
+    setTimeout(function() {
+      try {
+        if (ext === 'json') {
+          allData = JSON.parse(txt);
+          if (!Array.isArray(allData)) allData = [allData];
+          finishLoad(file.name);
+        } else {
+          parseDelimitedAsync(txt, detectSep(txt), function(data) {
+            allData = data;
+            finishLoad(file.name);
+          });
+        }
+      } catch(err) { showToast('❌ 解析失败: ' + err.message); hideProgress(); }
+    }, 50);
   };
-  reader.onerror = function() { debugLog('❌ FileReader 读取失败'); showToast('❌ 读取失败，请用粘贴方式'); };
+  reader.onerror = function() { showToast('❌ 读取失败，请用粘贴方式'); };
   reader.readAsText(file, 'UTF-8');
 };
 
@@ -243,78 +245,95 @@ function loadData() {
   var raw = document.getElementById('pasteArea').value;
   if (!raw || !raw.trim()) { showToast('⚠️ 请先选择文件或粘贴数据'); return; }
   var txt = String(raw);
-  clearDebug();
-  debugLog('�� 粘贴内容长度: ' + txt.length + ' 字符');
-  debugLog('�� 前200字符:\n' + txt.substring(0, 200));
-  try {
-    if (fmt === 'json') {
-      allData = JSON.parse(txt);
-      if (!Array.isArray(allData)) allData = [allData];
-    } else {
-      var sep = fmt === 'tsv' ? '\t' : detectSep(txt);
-      debugLog('✔️ 使用分隔符: ' + (sep==='\t'?'Tab':'逗号'));
-      allData = parseDelimited(txt, sep);
+  var btn = document.getElementById('importBtn');
+  btn.disabled = true;
+  btn.textContent = '处理中...';
+  setProgress(0, '解析中...');
+  setTimeout(function() {
+    try {
+      if (fmt === 'json') {
+        allData = JSON.parse(txt);
+        if (!Array.isArray(allData)) allData = [allData];
+        finishLoad('粘贴数据');
+      } else {
+        var sep = fmt === 'tsv' ? '\t' : detectSep(txt);
+        parseDelimitedAsync(txt, sep, function(data) {
+          allData = data;
+          finishLoad('粘贴数据');
+        });
+      }
+    } catch(err) {
+      showToast('❌ 解析失败: ' + err.message);
+      hideProgress();
+      btn.disabled = false;
+      btn.textContent = '✓ 确认导入';
     }
-    debugLog('�� 解析行数: ' + allData.length);
-    if (allData.length > 0) {
-      debugLog('��️ 列名: ' + Object.keys(allData).join(', '));
-      debugLog('�� 第一行: ' + JSON.stringify(allData).substring(0, 300));
-    }
-    document.getElementById('uploadName').textContent = '✓ 已导入 ' + allData.length + ' 条';
-    closeModal();
-    applyFilters();
-    showToast('✓ 已加载 ' + allData.length + ' 条数据');
-  } catch(err) {
-    debugLog('❌ 错误: ' + err.message);
-    showToast('❌ 解析失败: ' + err.message);
-  }
+  }, 50);
 }
 
-function parseDelimited(txt, sep) {
+// ── 分批异步解析（解决大文件卡死问题）──
+function parseDelimitedAsync(txt, sep, callback) {
   var lines = txt.split(/\r?\n/).filter(function(l){ return l.trim(); });
-  if (lines.length < 2) return [];
+  if (lines.length < 2) { callback([]); return; }
+
   var rawHdrs = parseLine(String(lines), sep);
-  debugLog('��️ 原始列名(' + rawHdrs.length + '列): ' + rawHdrs.join(' | '));
-  var colMap = rawHdrs.map(function(h) {
-    var clean = String(h).trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
-    if (!clean || clean === 'no' || clean === 'index' || clean === 'row' || clean === 'ct') return null;
-    var map = {
-      'tt_link':'tt_link','ttlink':'tt_link','ctlink':'tt_link',
-      'asin':'asin',
-      'img_url':'img_url','imgurl':'img_url','imageurl':'img_url',
-      'keywords':'keywords','keyword':'keywords',
-      'question':'question',
-      'ri_comment':'ri_comment','ricomment':'ri_comment',
-      'comment':'comment',
-      'product_type':'product_type','producttype':'product_type','pt':'product_type',
-      'create_user':'create_user','createuser':'create_user',
-      'title':'title',
-      'pt_qrd_link':'pt_qrd_link','ptqrdlink':'pt_qrd_link'
-    };
-    return map[clean] || String(h).trim().toLowerCase().replace(/\s+/g,'_');
-  });
-  debugLog('�� 映射后列名: ' + colMap.join(' | '));
-  return lines.slice(1).map(function(line) {
-    var vals = parseLine(String(line), sep);
-    var obj = {};
-    colMap.forEach(function(normH, i) {
-      if (normH !== null) obj[normH] = (vals[i] || '').trim();
-    });
-    return obj;
-  });
+  var colMap = rawHdrs.map(function(h){ return mapCol(h); });
+  var total = lines.length - 1;
+  var result = [];
+  var BATCH = 500; // 每批处理500行
+  var idx = 1;
+
+  function processBatch() {
+    var end = Math.min(idx + BATCH, lines.length);
+    for (var i = idx; i < end; i++) {
+      var vals = parseLine(String(lines[i]), sep);
+      var obj = {};
+      colMap.forEach(function(normH, j) {
+        if (normH !== null) obj[normH] = (vals[j] || '').trim();
+      });
+      result.push(obj);
+    }
+    idx = end;
+    var pct = Math.round((idx - 1) / total * 100);
+    setProgress(pct, '已处理 ' + (idx-1) + ' / ' + total + ' 行...');
+    if (idx < lines.length) {
+      setTimeout(processBatch, 0); // 让浏览器喘口气，不卡死
+    } else {
+      callback(result);
+    }
+  }
+  processBatch();
+}
+
+function finishLoad(name) {
+  document.getElementById('uploadName').textContent = '✓ ' + name + '（' + allData.length + ' 条）';
+  hideProgress();
+  var btn = document.getElementById('importBtn');
+  btn.disabled = false;
+  btn.textContent = '✓ 确认导入';
+  closeModal();
+  applyFilters();
+  showToast('✓ 已加载 ' + allData.length + ' 条数据');
+}
+
+function setProgress(pct, label) {
+  document.getElementById('progressWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = label;
+}
+function hideProgress() {
+  document.getElementById('progressWrap').classList.remove('show');
 }
 
 function parseLine(line, sep) {
   var res=[], cur='', inQ=false;
-  line = String(line);
   for (var i=0; i<line.length; i++) {
-    var c = line[i];
+    var c=line[i];
     if (c==='"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else inQ=!inQ; }
     else if (c===sep && !inQ) { res.push(cur); cur=''; }
     else cur+=c;
   }
-  res.push(cur);
-  return res;
+  res.push(cur); return res;
 }
 
 function openModal(){document.getElementById('modalBg').classList.add('open');document.getElementById('pasteArea').value='';document.getElementById('fileInputModal').value='';}
