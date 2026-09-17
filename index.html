@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>数据搜索工具</title>
+<title>数据搜索工具（调试版）</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,45 +13,54 @@ body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-s
 .topbar h1 { font-size: 17px; font-weight: 800; }
 .topbar span { font-size: 12px; font-weight: 500; margin-left: auto; opacity: 0.85; }
 
+.debug-box {
+  background: #fffde7; border: 2px solid #f9a825; border-radius: 10px;
+  margin: 14px 18px; padding: 14px 16px; font-size: 12px;
+  font-family: 'Courier New', monospace; color: #333;
+  white-space: pre-wrap; word-break: break-all; display: none;
+  max-height: 200px; overflow-y: auto;
+}
+.debug-box.show { display: block; }
+.debug-title { font-family: 'Nunito', sans-serif; font-weight: 800; color: #f57f17; font-size: 12.5px; margin-bottom: 6px; }
+
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; }
 .modal-bg.open { display: flex; }
-.modal { background: #fff; border-radius: 16px; padding: 28px; width: 90%; max-width: 640px; box-shadow: 0 8px 40px rgba(0,0,0,0.22); font-family: 'Nunito', sans-serif; }
+.modal { background: #fff; border-radius: 16px; padding: 28px; width: 90%; max-width: 640px; box-shadow: 0 8px 40px rgba(0,0,0,0.22); }
 .modal h2 { font-size: 16px; font-weight: 800; color: #0277bd; margin-bottom: 6px; }
 .modal p { font-size: 12.5px; color: #667; margin-bottom: 12px; font-weight: 600; line-height: 1.6; }
-.modal textarea { width: 100%; height: 200px; border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 10px 12px; font-size: 12px; font-family: 'Courier New', monospace; resize: vertical; outline: none; color: #222; background: #f5faff; }
-.modal textarea:focus { border-color: #0277bd; box-shadow: 0 0 0 3px rgba(2,119,189,0.13); }
+.modal textarea { width: 100%; height: 180px; border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 10px 12px; font-size: 12px; font-family: 'Courier New', monospace; resize: vertical; outline: none; color: #222; background: #f5faff; }
+.modal textarea:focus { border-color: #0277bd; }
 .modal-btns { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; }
-.btn-primary { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.btn-primary { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
 .btn-primary:hover { background: #01579b; }
 .btn-secondary { background: #f0f4f8; color: #667; border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
-.btn-secondary:hover { background: #e1f5fe; }
 .sep { display: flex; align-items: center; gap: 10px; margin: 14px 0; }
 .sep span { font-size: 11px; color: #aac; font-weight: 700; white-space: nowrap; }
 .sep hr { flex: 1; border: none; border-top: 1px solid #e0eaf2; }
-.file-label { display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px dashed #81d4fa; border-radius: 10px; padding: 14px; cursor: pointer; color: #0277bd; font-weight: 700; font-size: 13px; background: #f0f9ff; transition: all 0.15s; font-family: inherit; }
+.file-label { display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px dashed #81d4fa; border-radius: 10px; padding: 14px; cursor: pointer; color: #0277bd; font-weight: 700; font-size: 13px; background: #f0f9ff; transition: all 0.15s; }
 .file-label:hover { background: #e1f5fe; border-color: #0277bd; }
 #fileInputModal { display: none; }
 .fmt-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
-.fmt-tab { border: 1.5px solid #c5d8e8; background: #f5faff; border-radius: 8px; padding: 4px 14px; font-size: 12px; font-weight: 700; cursor: pointer; color: #667; font-family: inherit; transition: all 0.12s; }
+.fmt-tab { border: 1.5px solid #c5d8e8; background: #f5faff; border-radius: 8px; padding: 4px 14px; font-size: 12px; font-weight: 700; cursor: pointer; color: #667; font-family: inherit; }
 .fmt-tab.active { background: #0277bd; border-color: #0277bd; color: #fff; }
 
 .filter-bar { background: #fff; border-bottom: 2.5px solid #0277bd; padding: 12px 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
 .fg { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
 .fg label { font-size: 10.5px; font-weight: 800; color: #0277bd; text-transform: uppercase; letter-spacing: 0.08em; }
-.fg input { border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 6px 12px; font-size: 13px; color: #222; background: #f5faff; outline: none; transition: border-color 0.15s, box-shadow 0.15s; font-family: inherit; font-weight: 600; }
+.fg input { border: 1.5px solid #c5d8e8; border-radius: 10px; padding: 6px 12px; font-size: 13px; color: #222; background: #f5faff; outline: none; font-family: inherit; font-weight: 600; }
 .fg input:focus { border-color: #0277bd; box-shadow: 0 0 0 3px rgba(2,119,189,0.13); background: #fff; }
 .fg input::placeholder { font-weight: 400; color: #aac4d8; }
-.btn-clear { background: #e1f5fe; border: 1.5px solid #81d4fa; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; color: #01579b; cursor: pointer; font-weight: 700; align-self: flex-end; transition: background 0.15s; font-family: inherit; }
+.btn-clear { background: #e1f5fe; border: 1.5px solid #81d4fa; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; color: #01579b; cursor: pointer; font-weight: 700; align-self: flex-end; font-family: inherit; }
 .btn-clear:hover { background: #b3e5fc; }
 
 .upload-bar { background: #f7f9fc; border-bottom: 1px solid #dde3ea; padding: 9px 18px; display: flex; align-items: center; gap: 12px; }
-.upload-btn { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; }
+.upload-btn { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; }
 .upload-btn:hover { background: #01579b; }
 .upload-name { font-size: 12.5px; color: #0277bd; font-weight: 700; }
 .stats { margin-left: auto; font-size: 12px; color: #667; font-weight: 600; }
 .stats strong { color: #111; font-weight: 800; }
 
-.tbl-outer { overflow: auto; max-height: calc(100vh - 165px); border-top: 1px solid #ccd6e0; }
+.tbl-outer { overflow: auto; max-height: calc(100vh - 200px); border-top: 1px solid #ccd6e0; }
 table { border-collapse: collapse; font-size: 12.5px; min-width: 100%; background: #fff; }
 thead tr th { background: #0277bd; color: #fff; font-weight: 800; padding: 8px 11px; border: 1px solid #01579b; white-space: nowrap; position: sticky; top: 0; z-index: 10; text-align: left; font-size: 12px; cursor: pointer; user-select: none; font-family: inherit; }
 thead tr th:hover { background: #01579b; }
@@ -64,15 +73,13 @@ tbody tr:hover td { background: #dff0fb !important; }
 tbody tr.selected td { background: #b3e5fc !important; }
 .c-asin { font-family: 'Courier New', monospace; font-size: 11.5px; color: #0d47a1; font-weight: 700; }
 .c-link a { color: #0277bd; text-decoration: underline; font-size: 12px; font-weight: 700; }
-.c-link a:hover { color: #01579b; }
 .c-img img { width: 36px; height: 36px; object-fit: cover; border: 1px solid #dde8f0; border-radius: 5px; }
 .c-img .noimg { width: 36px; height: 36px; background: #eef4fb; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: #aac; border: 1px solid #dde3ea; border-radius: 5px; }
 .c-pt { background: #e0f7fa; color: #006064; padding: 2px 10px; border-radius: 12px; font-size: 11.5px; font-weight: 700; border: 1px solid #80deea; display: inline-block; }
 .c-kw { color: #5c35a0; font-size: 12.5px; font-weight: 600; }
 .empty-row td { text-align: center; padding: 44px; color: #b0c4d4; font-size: 13.5px; font-weight: 600; background: #fff !important; }
-
 .pager { background: #f7f9fc; border-top: 1px solid #dde3ea; padding: 8px 18px; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.pg-btn { border: 1.5px solid #c5d8e8; background: #fff; border-radius: 8px; padding: 4px 12px; font-size: 12.5px; color: #334; cursor: pointer; font-family: inherit; font-weight: 700; transition: all 0.12s; }
+.pg-btn { border: 1.5px solid #c5d8e8; background: #fff; border-radius: 8px; padding: 4px 12px; font-size: 12.5px; color: #334; cursor: pointer; font-family: inherit; font-weight: 700; }
 .pg-btn:hover { background: #e1f5fe; border-color: #0277bd; color: #0277bd; }
 .pg-btn.active { background: #0277bd; border-color: #0277bd; color: #fff; }
 .pg-btn:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -94,18 +101,9 @@ tbody tr.selected td { background: #b3e5fc !important; }
 </div>
 
 <div class="filter-bar">
-  <div class="fg">
-    <label>�� Keywords</label>
-    <input type="text" id="fKw" placeholder="搜索关键词..." oninput="applyFilters()">
-  </div>
-  <div class="fg">
-    <label>�� ASIN</label>
-    <input type="text" id="fAsin" placeholder="输入 ASIN..." oninput="applyFilters()">
-  </div>
-  <div class="fg">
-    <label>��️ PT (Product Type)</label>
-    <input type="text" id="fPt" placeholder="输入 PT 类型..." oninput="applyFilters()">
-  </div>
+  <div class="fg"><label>�� Keywords</label><input type="text" id="fKw" placeholder="搜索关键词..." oninput="applyFilters()"></div>
+  <div class="fg"><label>�� ASIN</label><input type="text" id="fAsin" placeholder="输入 ASIN..." oninput="applyFilters()"></div>
+  <div class="fg"><label>��️ PT (Product Type)</label><input type="text" id="fPt" placeholder="输入 PT 类型..." oninput="applyFilters()"></div>
   <button class="btn-clear" onclick="clearFilters()">✕ 清除</button>
 </div>
 
@@ -118,10 +116,13 @@ tbody tr.selected td { background: #b3e5fc !important; }
     导入数据
   </button>
   <span id="uploadName" class="upload-name"></span>
-  <div class="stats">
-    显示 <strong id="showCount">0</strong> / <strong id="totalCount">0</strong> 条
-    &nbsp;|&nbsp; 第 <strong id="pgCur">—</strong> / <strong id="pgTotal">—</strong> 页
-  </div>
+  <div class="stats">显示 <strong id="showCount">0</strong> / <strong id="totalCount">0</strong> 条 &nbsp;|&nbsp; 第 <strong id="pgCur">—</strong> / <strong id="pgTotal">—</strong> 页</div>
+</div>
+
+<!-- 调试信息框 -->
+<div class="debug-box" id="debugBox">
+  <div class="debug-title">�� 调试信息（帮助排查问题）</div>
+  <div id="debugContent"></div>
 </div>
 
 <div class="tbl-outer" id="tblOuter">
@@ -162,12 +163,12 @@ tbody tr.selected td { background: #b3e5fc !important; }
       </svg>
       点击选择文件
     </label>
-    <input type="file" id="fileInputModal" accept=".csv,.tsv,.json">
+    <input type="file" id="fileInputModal" accept=".csv,.tsv,.json,.txt">
     <div class="sep"><hr><span>或者</span><hr></div>
-    <p>方式二：用记事本打开 CSV → 全选复制 → 粘贴到下方</p>
+    <p>方式二：用记事本打开文件 → Ctrl+A → Ctrl+C → 粘贴到下方</p>
     <div class="fmt-tabs">
-      <button class="fmt-tab active" onclick="setFmt('csv',this)">CSV</button>
-      <button class="fmt-tab" onclick="setFmt('tsv',this)">TSV</button>
+      <button class="fmt-tab active" onclick="setFmt('csv',this)">CSV（逗号）</button>
+      <button class="fmt-tab" onclick="setFmt('tsv',this)">TSV（Tab）</button>
       <button class="fmt-tab" onclick="setFmt('json',this)">JSON</button>
     </div>
     <textarea id="pasteArea" placeholder="在此粘贴数据内容..."></textarea>
@@ -181,106 +182,128 @@ tbody tr.selected td { background: #b3e5fc !important; }
 <script>
 var allData=[], filteredData=[], currentPage=1, PAGE=50, sortCol='', sortAsc=true, fmt='csv';
 
-// 需要忽略的列名（不区分大小写）
-var IGNORE_COLS = ['no','#','序号','编号','row','index'];
-
-// 列名标准化映射
-var COL_MAP = {
-  'tt_link':'tt_link','ttlink':'tt_link','tt link':'tt_link',
-  'asin':'asin',
-  'img_url':'img_url','imgurl':'img_url','img url':'img_url','image':'img_url','image_url':'img_url',
-  'keywords':'keywords','keyword':'keywords',
-  'question':'question',
-  'ri_comment':'ri_comment','ricomment':'ri_comment','ri comment':'ri_comment',
-  'comment':'comment',
-  'product_type':'product_type','producttype':'product_type','product type':'product_type','pt':'product_type',
-  'create_user':'create_user','createuser':'create_user','create user':'create_user',
-  'title':'title',
-  'pt_qrd_link':'pt_qrd_link','ptqrdlink':'pt_qrd_link','pt qrd link':'pt_qrd_link'
-};
-
-function normalizeHeader(h) {
-  var clean = h.trim().toLowerCase().replace(/\s+/g,'_');
-  // 直接匹配
-  if (COL_MAP[clean]) return COL_MAP[clean];
-  // 去掉特殊字符再匹配
-  var stripped = clean.replace(/[^a-z0-9_]/g,'');
-  if (COL_MAP[stripped]) return COL_MAP[stripped];
-  return clean;
+function debugLog(msg) {
+  var box = document.getElementById('debugBox');
+  var content = document.getElementById('debugContent');
+  box.classList.add('show');
+  content.textContent += msg + '\n';
 }
-
-function shouldIgnore(h) {
-  var clean = h.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
-  return IGNORE_COLS.indexOf(clean) !== -1 || clean === 'no' || clean === '';
+function clearDebug() {
+  document.getElementById('debugContent').textContent = '';
 }
 
 document.getElementById('fileInputModal').onchange = function(e) {
   var file = e.target.files;
   if (!file) return;
+  clearDebug();
+  debugLog('�� 文件名: ' + file.name);
+  debugLog('�� 文件大小: ' + file.size + ' bytes');
+  debugLog('�� 文件类型: ' + file.type);
   var reader = new FileReader();
   reader.onload = function(ev) {
     try {
       var txt = ev.target.result;
+      debugLog('✅ 文件读取成功，内容长度: ' + txt.length + ' 字符');
+      debugLog('�� 前200字符预览:\n' + txt.substring(0, 200));
       var ext = file.name.split('.').pop().toLowerCase();
+      var sep = ext==='tsv' ? '\t' : ',';
+      // 自动检测分隔符
+      var firstLine = txt.split(/\r?\n/);
+      var tabCount = (firstLine.match(/\t/g)||[]).length;
+      var commaCount = (firstLine.match(/,/g)||[]).length;
+      debugLog('�� 第一行Tab数量: ' + tabCount + ', 逗号数量: ' + commaCount);
+      if (tabCount > commaCount) { sep = '\t'; debugLog('�� 自动切换为 TSV 模式'); }
+      else { debugLog('✔️ 使用 CSV 模式'); }
       if (ext==='json') { allData=JSON.parse(txt); if(!Array.isArray(allData)) allData=[allData]; }
-      else { allData=parseDelimited(txt, ext==='tsv'?'\t':','); }
+      else { allData = parseDelimited(txt, sep); }
+      debugLog('�� 解析行数: ' + allData.length);
+      if (allData.length > 0) debugLog('��️ 识别到的列名: ' + Object.keys(allData).join(', '));
+      if (allData.length > 0) debugLog('�� 第一行数据: ' + JSON.stringify(allData).substring(0,300));
       document.getElementById('uploadName').textContent = '✓ '+file.name;
       closeModal();
       applyFilters();
       showToast('✓ 已加载 '+allData.length+' 条数据');
-    } catch(err) { showToast('❌ 解析失败: '+err.message); }
+    } catch(err) {
+      debugLog('❌ 错误: ' + err.message);
+      showToast('❌ 解析失败: '+err.message);
+    }
   };
-  reader.onerror = function(){ showToast('❌ 读取失败，请用粘贴方式'); };
+  reader.onerror = function(err){
+    debugLog('❌ FileReader 错误: ' + err);
+    showToast('❌ 读取失败，请用粘贴方式');
+  };
   reader.readAsText(file,'UTF-8');
 };
 
-function setFmt(f,btn) {
+function setFmt(f,btn){
   fmt=f;
   document.querySelectorAll('.fmt-tab').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
 }
 
-function loadData() {
-  var txt = document.getElementById('pasteArea').value.trim();
-  if (!txt) { showToast('⚠️ 请先选择文件或粘贴数据'); return; }
+function loadData(){
+  var txt=document.getElementById('pasteArea').value.trim();
+  if(!txt){showToast('⚠️ 请先选择文件或粘贴数据');return;}
+  clearDebug();
+  debugLog('�� 粘贴内容长度: '+txt.length+' 字符');
+  debugLog('�� 前200字符:\n'+txt.substring(0,200));
   try {
-    if (fmt==='json') { allData=JSON.parse(txt); if(!Array.isArray(allData)) allData=[allData]; }
-    else { allData=parseDelimited(txt, fmt==='tsv'?'\t':','); }
-    document.getElementById('uploadName').textContent = '✓ 已导入 '+allData.length+' 条';
+    var sep = fmt==='tsv'?'\t':',';
+    if (fmt==='json'){allData=JSON.parse(txt);if(!Array.isArray(allData))allData=[allData];}
+    else {
+      // 自动检测
+      var firstLine=txt.split(/\r?\n/);
+      var tabCount=(firstLine.match(/\t/g)||[]).length;
+      var commaCount=(firstLine.match(/,/g)||[]).length;
+      debugLog('�� Tab数量: '+tabCount+', 逗号数量: '+commaCount);
+      if(tabCount>commaCount){sep='\t';debugLog('�� 自动切换TSV');}
+      allData=parseDelimited(txt,sep);
+    }
+    debugLog('�� 解析行数: '+allData.length);
+    if(allData.length>0) debugLog('��️ 列名: '+Object.keys(allData).join(', '));
+    if(allData.length>0) debugLog('�� 第一行: '+JSON.stringify(allData).substring(0,300));
+    document.getElementById('uploadName').textContent='✓ 已导入 '+allData.length+' 条';
     closeModal();
     applyFilters();
     showToast('✓ 已加载 '+allData.length+' 条数据');
-  } catch(err) { showToast('❌ 解析失败: '+err.message); }
+  } catch(err){
+    debugLog('❌ 错误: '+err.message);
+    showToast('❌ 解析失败: '+err.message);
+  }
 }
 
-function parseDelimited(txt, sep) {
-  var lines = txt.split(/\r?\n/).filter(function(l){return l.trim();});
-  if (lines.length < 2) return [];
-
-  var rawHdrs = parseLine(lines, sep);
-  // 建立原始列索引 → 标准列名 的映射，跳过需要忽略的列
-  var colMap = [];
-  rawHdrs.forEach(function(h, i) {
-    if (shouldIgnore(h)) {
-      colMap.push(null); // 忽略此列
-    } else {
-      colMap.push(normalizeHeader(h));
-    }
+function parseDelimited(txt,sep){
+  var lines=txt.split(/\r?\n/).filter(function(l){return l.trim();});
+  if(lines.length<2) return [];
+  var rawHdrs=parseLine(lines,sep);
+  debugLog('��️ 原始列名('+rawHdrs.length+'列): '+rawHdrs.join(' | '));
+  var colMap=rawHdrs.map(function(h){
+    var clean=h.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+    if(!clean||clean==='no'||clean==='index'||clean==='row') return null;
+    var map={
+      'tt_link':'tt_link','ttlink':'tt_link',
+      'asin':'asin',
+      'img_url':'img_url','imgurl':'img_url','imageurl':'img_url',
+      'keywords':'keywords','keyword':'keywords',
+      'question':'question',
+      'ri_comment':'ri_comment','ricomment':'ri_comment',
+      'comment':'comment',
+      'product_type':'product_type','producttype':'product_type','pt':'product_type',
+      'create_user':'create_user','createuser':'create_user',
+      'title':'title',
+      'pt_qrd_link':'pt_qrd_link','ptqrdlink':'pt_qrd_link'
+    };
+    return map[clean] || h.trim().toLowerCase().replace(/\s+/g,'_');
   });
-
-  return lines.slice(1).map(function(line) {
-    var vals = parseLine(line, sep);
-    var obj = {};
-    colMap.forEach(function(normH, i) {
-      if (normH !== null) {
-        obj[normH] = (vals[i] || '').trim();
-      }
-    });
+  debugLog('�� 映射后列名: '+colMap.join(' | '));
+  return lines.slice(1).map(function(line){
+    var vals=parseLine(line,sep),obj={};
+    colMap.forEach(function(normH,i){if(normH!==null) obj[normH]=(vals[i]||'').trim();});
     return obj;
   });
 }
 
-function parseLine(line, sep) {
+function parseLine(line,sep){
   var res=[],cur='',inQ=false;
   for(var i=0;i<line.length;i++){
     var c=line[i];
@@ -288,7 +311,7 @@ function parseLine(line, sep) {
     else if(c===sep&&!inQ){res.push(cur);cur='';}
     else cur+=c;
   }
-  res.push(cur); return res;
+  res.push(cur);return res;
 }
 
 function openModal(){document.getElementById('modalBg').classList.add('open');document.getElementById('pasteArea').value='';document.getElementById('fileInputModal').value='';}
@@ -308,97 +331,49 @@ function applyFilters(){
   if(sortCol) doSort();
   currentPage=1; render();
 }
-function clearFilters(){
-  document.getElementById('fKw').value='';
-  document.getElementById('fAsin').value='';
-  document.getElementById('fPt').value='';
-  applyFilters();
-}
-function sortBy(col){
-  if(sortCol===col) sortAsc=!sortAsc; else{sortCol=col;sortAsc=true;}
-  doSort(); currentPage=1; render();
-}
-function doSort(){
-  filteredData.sort(function(a,b){
-    var va=(a[sortCol]||'').toLowerCase(),vb=(b[sortCol]||'').toLowerCase();
-    return sortAsc?va.localeCompare(vb):vb.localeCompare(va);
-  });
-}
+function clearFilters(){document.getElementById('fKw').value='';document.getElementById('fAsin').value='';document.getElementById('fPt').value='';applyFilters();}
+function sortBy(col){if(sortCol===col)sortAsc=!sortAsc;else{sortCol=col;sortAsc=true;}doSort();currentPage=1;render();}
+function doSort(){filteredData.sort(function(a,b){var va=(a[sortCol]||'').toLowerCase(),vb=(b[sortCol]||'').toLowerCase();return sortAsc?va.localeCompare(vb):vb.localeCompare(va);});}
 
 function render(){
-  var total=filteredData.length;
-  var pages=Math.max(1,Math.ceil(total/PAGE));
+  var total=filteredData.length,pages=Math.max(1,Math.ceil(total/PAGE));
   if(currentPage>pages) currentPage=pages;
-  var start=(currentPage-1)*PAGE, slice=filteredData.slice(start,start+PAGE);
+  var start=(currentPage-1)*PAGE,slice=filteredData.slice(start,start+PAGE);
   document.getElementById('totalCount').textContent=allData.length;
   document.getElementById('showCount').textContent=total;
   document.getElementById('pgCur').textContent=pages>0?currentPage:'—';
   document.getElementById('pgTotal').textContent=pages>0?pages:'—';
   document.getElementById('headerCount').textContent='共 '+allData.length+' 条记录';
   var tbody=document.getElementById('tblBody');
-  if(slice.length===0){tbody.innerHTML='<tr class="empty-row"><td colspan="12">未找到匹配数据，请调整筛选条件</td></tr>';renderPager(pages);return;}
+  if(slice.length===0){tbody.innerHTML='<tr class="empty-row"><td colspan="12">未找到匹配数据</td></tr>';renderPager(pages);return;}
   var rows='';
   for(var i=0;i<slice.length;i++){
     var r=slice[i],n=start+i+1;
     var img=r.img_url||'',asin=r.asin||'',ttl=r.title||'',kw=r.keywords||'';
     var pt=r.product_type||'',q=r.question||'',ri=r.ri_comment||'';
     var cm=r.comment||'',cu=r.create_user||'',tt=r.tt_link||'',pq=r.pt_qrd_link||'';
-    var imgCell=img
-      ?'<div class="c-img"><img src="'+x(img)+'" alt="" onerror="this.parentNode.innerHTML=\'<div class=noimg>N/A</div>\'"></div>'
-      :'<div class="c-img"><div class="noimg">N/A</div></div>';
+    var imgCell=img?'<div class="c-img"><img src="'+x(img)+'" alt="" onerror="this.parentNode.innerHTML=\'<div class=noimg>N/A</div>\'"></div>':'<div class="c-img"><div class="noimg">N/A</div></div>';
     var ttCell=tt?'<div class="c-link"><a href="'+x(tt)+'" target="_blank">�� 链接</a></div>':'';
     var pqCell=pq?'<div class="c-link"><a href="'+x(pq)+'" target="_blank">�� 链接</a></div>':'';
-    rows+='<tr onclick="selRow(this)">'
-      +'<td class="rn">'+n+'</td>'
-      +'<td>'+imgCell+'</td>'
-      +'<td class="c-asin" title="'+x(asin)+'">'+x(asin)+'</td>'
-      +'<td title="'+x(ttl)+'">'+x(ttl)+'</td>'
-      +'<td class="c-kw" title="'+x(kw)+'">'+x(kw)+'</td>'
-      +'<td>'+(pt?'<span class="c-pt">'+x(pt)+'</span>':'')+'</td>'
-      +'<td title="'+x(q)+'">'+x(q)+'</td>'
-      +'<td title="'+x(ri)+'">'+x(ri)+'</td>'
-      +'<td title="'+x(cm)+'">'+x(cm)+'</td>'
-      +'<td title="'+x(cu)+'">'+x(cu)+'</td>'
-      +'<td>'+ttCell+'</td>'
-      +'<td>'+pqCell+'</td>'
-      +'</tr>';
+    rows+='<tr onclick="selRow(this)"><td class="rn">'+n+'</td><td>'+imgCell+'</td><td class="c-asin" title="'+x(asin)+'">'+x(asin)+'</td><td title="'+x(ttl)+'">'+x(ttl)+'</td><td class="c-kw" title="'+x(kw)+'">'+x(kw)+'</td><td>'+(pt?'<span class="c-pt">'+x(pt)+'</span>':'')+'</td><td title="'+x(q)+'">'+x(q)+'</td><td title="'+x(ri)+'">'+x(ri)+'</td><td title="'+x(cm)+'">'+x(cm)+'</td><td title="'+x(cu)+'">'+x(cu)+'</td><td>'+ttCell+'</td><td>'+pqCell+'</td></tr>';
   }
   tbody.innerHTML=rows;
   renderPager(pages);
 }
-function selRow(tr){
-  document.querySelectorAll('#tblBody tr.selected').forEach(function(r){r.classList.remove('selected');});
-  tr.classList.add('selected');
-}
+function selRow(tr){document.querySelectorAll('#tblBody tr.selected').forEach(function(r){r.classList.remove('selected');});tr.classList.add('selected');}
 function renderPager(pages){
   var pg=document.getElementById('pager');
   if(pages<=1){pg.innerHTML='';return;}
   var h='<button class="pg-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+'>‹ 上一页</button>';
   var range=[];
-  for(var i=1;i<=pages;i++){
-    if(i===1||i===pages||(i>=currentPage-2&&i<=currentPage+2)) range.push(i);
-    else if(range[range.length-1]!=='…') range.push('…');
-  }
-  range.forEach(function(p){
-    if(p==='…') h+='<span style="padding:0 5px;color:#b0c4d4;font-weight:700">…</span>';
-    else h+='<button class="pg-btn '+(p===currentPage?'active':'')+'" onclick="goPage('+p+')">'+p+'</button>';
-  });
-  h+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage===pages?'disabled':'')+'>下一页 ›</button>';
-  h+='<span class="pg-info">每页 '+PAGE+' 条</span>';
+  for(var i=1;i<=pages;i++){if(i===1||i===pages||(i>=currentPage-2&&i<=currentPage+2))range.push(i);else if(range[range.length-1]!=='…')range.push('…');}
+  range.forEach(function(p){if(p==='…')h+='<span style="padding:0 5px;color:#b0c4d4">…</span>';else h+='<button class="pg-btn '+(p===currentPage?'active':'')+'" onclick="goPage('+p+')">'+p+'</button>';});
+  h+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage===pages?'disabled':'')+'>下一页 ›</button><span class="pg-info">每页 '+PAGE+' 条</span>';
   pg.innerHTML=h;
 }
-function goPage(p){
-  var pages=Math.ceil(filteredData.length/PAGE);
-  if(p<1||p>pages) return;
-  currentPage=p; render();
-  document.getElementById('tblOuter').scrollTop=0;
-}
+function goPage(p){var pages=Math.ceil(filteredData.length/PAGE);if(p<1||p>pages)return;currentPage=p;render();document.getElementById('tblOuter').scrollTop=0;}
 function x(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},3000);
-}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
 </script>
 </body>
 </html>
