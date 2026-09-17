@@ -11,7 +11,10 @@
 body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif; font-size: 13px; }
 .topbar { background: #0277bd; color: #fff; padding: 11px 18px; display: flex; align-items: center; gap: 10px; }
 .topbar h1 { font-size: 17px; font-weight: 800; }
-.topbar span { font-size: 12px; font-weight: 500; margin-left: auto; opacity: 0.85; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.topbar span { font-size: 12px; font-weight: 500; opacity: 0.85; }
+.btn-clear-data { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; color: #fff; font-size: 11.5px; font-weight: 700; padding: 3px 10px; cursor: pointer; font-family: inherit; }
+.btn-clear-data:hover { background: rgba(255,255,255,0.28); }
 
 .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; }
 .modal-bg.open { display: flex; }
@@ -34,12 +37,10 @@ body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-s
 .fmt-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
 .fmt-tab { border: 1.5px solid #c5d8e8; background: #f5faff; border-radius: 8px; padding: 4px 14px; font-size: 12px; font-weight: 700; cursor: pointer; color: #667; font-family: inherit; }
 .fmt-tab.active { background: #0277bd; border-color: #0277bd; color: #fff; }
-
-/* 进度条 */
 .progress-wrap { margin-top: 12px; display: none; }
 .progress-wrap.show { display: block; }
 .progress-bar-bg { background: #e1f5fe; border-radius: 8px; height: 10px; overflow: hidden; }
-.progress-bar-fill { background: #0277bd; height: 100%; border-radius: 8px; width: 0%; transition: width 0.2s; }
+.progress-bar-fill { background: #0277bd; height: 100%; border-radius: 8px; width: 0%; transition: width 0.15s; }
 .progress-label { font-size: 11.5px; color: #0277bd; font-weight: 700; margin-top: 5px; text-align: center; }
 
 .filter-bar { background: #fff; border-bottom: 2.5px solid #0277bd; padding: 12px 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
@@ -51,10 +52,11 @@ body { background: #f0f4f8; font-family: 'Nunito', 'Segoe UI', system-ui, sans-s
 .btn-clear { background: #e1f5fe; border: 1.5px solid #81d4fa; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; color: #01579b; cursor: pointer; font-weight: 700; align-self: flex-end; font-family: inherit; }
 .btn-clear:hover { background: #b3e5fc; }
 
-.upload-bar { background: #f7f9fc; border-bottom: 1px solid #dde3ea; padding: 9px 18px; display: flex; align-items: center; gap: 12px; }
+.upload-bar { background: #f7f9fc; border-bottom: 1px solid #dde3ea; padding: 9px 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .upload-btn { background: #0277bd; color: #fff; border: none; border-radius: 10px; padding: 6px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; transition: background 0.15s; }
 .upload-btn:hover { background: #01579b; }
 .upload-name { font-size: 12.5px; color: #0277bd; font-weight: 700; }
+.saved-badge { background: #e0f7fa; color: #006064; border: 1px solid #80deea; border-radius: 8px; padding: 2px 10px; font-size: 11.5px; font-weight: 700; }
 .stats { margin-left: auto; font-size: 12px; color: #667; font-weight: 600; }
 .stats strong { color: #111; font-weight: 800; }
 
@@ -64,13 +66,14 @@ thead tr th { background: #0277bd; color: #fff; font-weight: 800; padding: 8px 1
 thead tr th:hover { background: #01579b; }
 th.rn, td.rn { background: #e1f5fe !important; color: #5580a0 !important; font-size: 11px; text-align: center; min-width: 36px; max-width: 36px; border-color: #b3e5fc !important; font-weight: 600 !important; cursor: default !important; }
 th.rn { background: #b3e5fc !important; color: #01579b !important; font-weight: 800 !important; }
-tbody tr td { padding: 6px 11px; border: 1px solid #d0dce8; color: #2a3a4a; vertical-align: middle; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+tbody tr td { padding: 6px 11px; border: 1px solid #d0dce8; color: #2a3a4a; vertical-align: middle; white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
 tbody tr:nth-child(even) td { background: #f0f8ff; }
 tbody tr:nth-child(odd) td { background: #fff; }
 tbody tr:hover td { background: #dff0fb !important; }
 tbody tr.selected td { background: #b3e5fc !important; }
 .c-asin { font-family: 'Courier New', monospace; font-size: 11.5px; color: #0d47a1; font-weight: 700; }
 .c-link a { color: #0277bd; text-decoration: underline; font-size: 12px; font-weight: 700; }
+.c-link a:hover { color: #01579b; }
 .c-img img { width: 36px; height: 36px; object-fit: cover; border: 1px solid #dde8f0; border-radius: 5px; }
 .c-img .noimg { width: 36px; height: 36px; background: #eef4fb; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: #aac; border: 1px solid #dde3ea; border-radius: 5px; }
 .c-pt { background: #e0f7fa; color: #006064; padding: 2px 10px; border-radius: 12px; font-size: 11.5px; font-weight: 700; border: 1px solid #80deea; display: inline-block; }
@@ -95,14 +98,17 @@ tbody tr.selected td { background: #b3e5fc !important; }
     <line x1="13" y1="13" x2="18" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
   </svg>
   <h1>数据搜索工具</h1>
-  <span id="headerCount">共 0 条记录</span>
+  <div class="topbar-right">
+    <span id="headerCount">共 0 条记录</span>
+    <button class="btn-clear-data" onclick="clearSavedData()">   清除数据</button>
+  </div>
 </div>
 
 <div class="filter-bar">
-  <div class="fg"><label>�� Keywords</label><input type="text" id="fKw" placeholder="搜索关键词..." oninput="applyFilters()"></div>
-  <div class="fg"><label>�� ASIN</label><input type="text" id="fAsin" placeholder="输入 ASIN..." oninput="applyFilters()"></div>
-  <div class="fg"><label>��️ PT (Product Type)</label><input type="text" id="fPt" placeholder="输入 PT 类型..." oninput="applyFilters()"></div>
-  <button class="btn-clear" onclick="clearFilters()">✕ 清除</button>
+  <div class="fg"><label>   Keywords</label><input type="text" id="fKw" placeholder="搜索关键词..." oninput="applyFilters()"></div>
+  <div class="fg"><label>   ASIN</label><input type="text" id="fAsin" placeholder="输入 ASIN..." oninput="applyFilters()"></div>
+  <div class="fg"><label>  ️ PT (Product Type)</label><input type="text" id="fPt" placeholder="输入 PT 类型..." oninput="applyFilters()"></div>
+  <button class="btn-clear" onclick="clearFilters()">✕ 清除筛选</button>
 </div>
 
 <div class="upload-bar">
@@ -111,9 +117,10 @@ tbody tr.selected td { background: #b3e5fc !important; }
       <path d="M7 1v8M4 4l3-3 3 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M1 11h12" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
-    导入数据
+    导入 / 更新数据
   </button>
   <span id="uploadName" class="upload-name"></span>
+  <span id="savedBadge" class="saved-badge" style="display:none">   已缓存</span>
   <div class="stats">显示 <strong id="showCount">0</strong> / <strong id="totalCount">0</strong> 条 &nbsp;|&nbsp; 第 <strong id="pgCur">—</strong> / <strong id="pgTotal">—</strong> 页</div>
 </div>
 
@@ -136,7 +143,7 @@ tbody tr.selected td { background: #b3e5fc !important; }
       </tr>
     </thead>
     <tbody id="tblBody">
-      <tr class="empty-row"><td colspan="12">�� 点击「导入数据」按钮加载数据</td></tr>
+      <tr class="empty-row"><td colspan="12">   点击「导入 / 更新数据」按钮加载数据</td></tr>
     </tbody>
   </table>
 </div>
@@ -145,7 +152,7 @@ tbody tr.selected td { background: #b3e5fc !important; }
 
 <div class="modal-bg" id="modalBg" onclick="bgClick(event)">
   <div class="modal">
-    <h2>�� 导入数据</h2>
+    <h2>   导入 / 更新数据</h2>
     <p>方式一：直接选择本地文件（CSV / TSV / JSON）</p>
     <label class="file-label" for="fileInputModal">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -158,7 +165,8 @@ tbody tr.selected td { background: #b3e5fc !important; }
     <div class="sep"><hr><span>或者</span><hr></div>
     <p>方式二：用记事本打开文件 → Ctrl+A → Ctrl+C → 粘贴到下方</p>
     <div class="fmt-tabs">
-      <button class="fmt-tab active" onclick="setFmt('csv',this)">CSV（逗号）</button>
+      <button class="fmt-tab active" onclick="setFmt('auto',this)">自动检测</button>
+      <button class="fmt-tab" onclick="setFmt('csv',this)">CSV（逗号）</button>
       <button class="fmt-tab" onclick="setFmt('tsv',this)">TSV（Tab）</button>
       <button class="fmt-tab" onclick="setFmt('json',this)">JSON</button>
     </div>
@@ -175,36 +183,76 @@ tbody tr.selected td { background: #b3e5fc !important; }
 </div>
 
 <script>
-var allData=[], filteredData=[], currentPage=1, PAGE=50, sortCol='', sortAsc=true, fmt='csv';
+var allData = [], filteredData = [], currentPage = 1, PAGE = 50, sortCol = '', sortAsc = true, fmt = 'auto';
+var STORAGE_KEY = 'escalate_tool_data_v2';
 
-// ── 列名映射 ──
+// ── 列名映射（严格按列名匹配，不按位置）──
 var COL_MAP = {
-  'tt_link':'tt_link','ttlink':'tt_link','ctlink':'tt_link',
+  'tt_link':'tt_link','ttlink':'tt_link','ctlink':'tt_link','ct_link':'tt_link',
   'asin':'asin',
-  'img_url':'img_url','imgurl':'img_url','imageurl':'img_url',
+  'img_url':'img_url','imgurl':'img_url','imageurl':'img_url','image_url':'img_url',
   'keywords':'keywords','keyword':'keywords',
   'question':'question',
-  'ri_comment':'ri_comment','ricomment':'ri_comment',
-  'comment':'comment',
-  'product_type':'product_type','producttype':'product_type','pt':'product_type',
-  'create_user':'create_user','createuser':'create_user',
+  'ri_comment':'ri_comment','ricomment':'ri_comment','ri_comments':'ri_comment',
+  'comment':'comment','comments':'comment',
+  'product_type':'product_type','producttype':'product_type','pt':'product_type','type':'product_type',
+  'create_user':'create_user','createuser':'create_user','user':'create_user','created_by':'create_user',
   'title':'title',
-  'pt_qrd_link':'pt_qrd_link','ptqrdlink':'pt_qrd_link'
+  'pt_qrd_link':'pt_qrd_link','ptqrdlink':'pt_qrd_link','pt_grid_link':'pt_qrd_link','ptgridlink':'pt_qrd_link'
 };
-var SKIP_COLS = {'no':1,'index':1,'row':1,'ct':1,'':1};
+var SKIP_COLS = {'no':1,'#':1,'index':1,'row':1,'ct':1,'num':1,'number':1,'序号':1,'编号':1};
 
 function mapCol(h) {
-  var clean = String(h).trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
-  if (SKIP_COLS[clean]) return null;
-  return COL_MAP[clean] || String(h).trim().toLowerCase().replace(/\s+/g,'_');
+  var raw = String(h).trim();
+  var clean = raw.toLowerCase().replace(/[^a-z0-9_]/g, '');
+  if (!clean || SKIP_COLS[clean] || SKIP_COLS[raw.toLowerCase()]) return null;
+  return COL_MAP[clean] || raw.toLowerCase().replace(/\s+/g,'_');
 }
 
 function detectSep(txt) {
   var nl = txt.indexOf('\n');
-  var firstLine = nl >= 0 ? txt.substring(0, nl) : txt.substring(0, 500);
+  var firstLine = nl >= 0 ? txt.substring(0, nl) : txt.substring(0, 1000);
   var tabs = (firstLine.match(/\t/g)||[]).length;
   var commas = (firstLine.match(/,/g)||[]).length;
   return tabs > commas ? '\t' : ',';
+}
+
+// ── 页面加载时从 localStorage 恢复数据 ──
+window.onload = function() {
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      if (parsed && parsed.data && parsed.data.length > 0) {
+        allData = parsed.data;
+        document.getElementById('uploadName').textContent = '✓ ' + (parsed.name || '已保存数据');
+        document.getElementById('savedBadge').style.display = 'inline-block';
+        applyFilters();
+        showToast('✅ 已自动恢复 ' + allData.length + ' 条数据');
+      }
+    }
+  } catch(e) { localStorage.removeItem(STORAGE_KEY); }
+};
+
+function saveToStorage(name) {
+  try {
+    var payload = JSON.stringify({ name: name, data: allData });
+    localStorage.setItem(STORAGE_KEY, payload);
+    document.getElementById('savedBadge').style.display = 'inline-block';
+  } catch(e) {
+    // localStorage 满了（通常5MB限制）
+    showToast('⚠️ 数据量过大，无法缓存，每次需重新导入');
+  }
+}
+
+function clearSavedData() {
+  if (!confirm('确定要清除所有缓存数据吗？')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  allData = []; filteredData = [];
+  document.getElementById('uploadName').textContent = '';
+  document.getElementById('savedBadge').style.display = 'none';
+  applyFilters();
+  showToast('   数据已清除');
 }
 
 // ── 文件选择 ──
@@ -224,8 +272,7 @@ document.getElementById('fileInputModal').onchange = function(e) {
           finishLoad(file.name);
         } else {
           parseDelimitedAsync(txt, detectSep(txt), function(data) {
-            allData = data;
-            finishLoad(file.name);
+            allData = data; finishLoad(file.name);
           });
         }
       } catch(err) { showToast('❌ 解析失败: ' + err.message); hideProgress(); }
@@ -235,9 +282,9 @@ document.getElementById('fileInputModal').onchange = function(e) {
   reader.readAsText(file, 'UTF-8');
 };
 
-function setFmt(f,btn) {
-  fmt=f;
-  document.querySelectorAll('.fmt-tab').forEach(function(b){b.classList.remove('active');});
+function setFmt(f, btn) {
+  fmt = f;
+  document.querySelectorAll('.fmt-tab').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
 }
 
@@ -246,8 +293,7 @@ function loadData() {
   if (!raw || !raw.trim()) { showToast('⚠️ 请先选择文件或粘贴数据'); return; }
   var txt = String(raw);
   var btn = document.getElementById('importBtn');
-  btn.disabled = true;
-  btn.textContent = '处理中...';
+  btn.disabled = true; btn.textContent = '处理中...';
   setProgress(0, '解析中...');
   setTimeout(function() {
     try {
@@ -256,48 +302,53 @@ function loadData() {
         if (!Array.isArray(allData)) allData = [allData];
         finishLoad('粘贴数据');
       } else {
-        var sep = fmt === 'tsv' ? '\t' : detectSep(txt);
+        var sep = (fmt === 'tsv') ? '\t' : (fmt === 'csv') ? ',' : detectSep(txt);
         parseDelimitedAsync(txt, sep, function(data) {
-          allData = data;
-          finishLoad('粘贴数据');
+          allData = data; finishLoad('粘贴数据');
         });
       }
     } catch(err) {
       showToast('❌ 解析失败: ' + err.message);
       hideProgress();
-      btn.disabled = false;
-      btn.textContent = '✓ 确认导入';
+      btn.disabled = false; btn.textContent = '✓ 确认导入';
     }
   }, 50);
 }
 
-// ── 分批异步解析（解决大文件卡死问题）──
+// ── 分批异步解析（防止大文件卡死）──
 function parseDelimitedAsync(txt, sep, callback) {
   var lines = txt.split(/\r?\n/).filter(function(l){ return l.trim(); });
   if (lines.length < 2) { callback([]); return; }
 
+  // 严格按列名建立映射
   var rawHdrs = parseLine(String(lines), sep);
   var colMap = rawHdrs.map(function(h){ return mapCol(h); });
+
   var total = lines.length - 1;
   var result = [];
-  var BATCH = 500; // 每批处理500行
+  var BATCH = 300;
   var idx = 1;
 
   function processBatch() {
     var end = Math.min(idx + BATCH, lines.length);
     for (var i = idx; i < end; i++) {
-      var vals = parseLine(String(lines[i]), sep);
+      var line = String(lines[i]);
+      if (!line.trim()) continue;
+      var vals = parseLine(line, sep);
       var obj = {};
-      colMap.forEach(function(normH, j) {
-        if (normH !== null) obj[normH] = (vals[j] || '').trim();
-      });
+      // 严格按列名索引赋值，不按位置偏移
+      for (var j = 0; j < colMap.length; j++) {
+        if (colMap[j] !== null) {
+          obj[colMap[j]] = (vals[j] !== undefined ? String(vals[j]) : '').trim();
+        }
+      }
       result.push(obj);
     }
     idx = end;
     var pct = Math.round((idx - 1) / total * 100);
-    setProgress(pct, '已处理 ' + (idx-1) + ' / ' + total + ' 行...');
+    setProgress(pct, '已处理 ' + (idx - 1) + ' / ' + total + ' 行 (' + pct + '%)');
     if (idx < lines.length) {
-      setTimeout(processBatch, 0); // 让浏览器喘口气，不卡死
+      setTimeout(processBatch, 0);
     } else {
       callback(result);
     }
@@ -309,102 +360,126 @@ function finishLoad(name) {
   document.getElementById('uploadName').textContent = '✓ ' + name + '（' + allData.length + ' 条）';
   hideProgress();
   var btn = document.getElementById('importBtn');
-  btn.disabled = false;
-  btn.textContent = '✓ 确认导入';
+  btn.disabled = false; btn.textContent = '✓ 确认导入';
+  saveToStorage(name);
   closeModal();
   applyFilters();
-  showToast('✓ 已加载 ' + allData.length + ' 条数据');
+  showToast('✓ 已加载并缓存 ' + allData.length + ' 条数据');
 }
 
-function setProgress(pct, label) {
-  document.getElementById('progressWrap').classList.add('show');
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = label;
-}
-function hideProgress() {
-  document.getElementById('progressWrap').classList.remove('show');
-}
-
+// ── CSV 解析（正确处理引号内的逗号）──
 function parseLine(line, sep) {
-  var res=[], cur='', inQ=false;
-  for (var i=0; i<line.length; i++) {
-    var c=line[i];
-    if (c==='"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else inQ=!inQ; }
-    else if (c===sep && !inQ) { res.push(cur); cur=''; }
-    else cur+=c;
+  var res = [], cur = '', inQ = false;
+  line = String(line);
+  for (var i = 0; i < line.length; i++) {
+    var c = line[i];
+    if (c === '"') {
+      if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if (c === sep && !inQ) {
+      res.push(cur); cur = '';
+    } else {
+      cur += c;
+    }
   }
-  res.push(cur); return res;
+  res.push(cur);
+  return res;
 }
 
-function openModal(){document.getElementById('modalBg').classList.add('open');document.getElementById('pasteArea').value='';document.getElementById('fileInputModal').value='';}
-function closeModal(){document.getElementById('modalBg').classList.remove('open');}
-function bgClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
+function openModal() { document.getElementById('modalBg').classList.add('open'); document.getElementById('pasteArea').value = ''; document.getElementById('fileInputModal').value = ''; }
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
+function bgClick(e) { if (e.target === document.getElementById('modalBg')) closeModal(); }
 
-function applyFilters(){
-  var kw=document.getElementById('fKw').value.trim().toLowerCase();
-  var asin=document.getElementById('fAsin').value.trim().toLowerCase();
-  var pt=document.getElementById('fPt').value.trim().toLowerCase();
-  filteredData=allData.filter(function(r){
-    if(kw&&!(r.keywords||'').toLowerCase().includes(kw)) return false;
-    if(asin&&!(r.asin||'').toLowerCase().includes(asin)) return false;
-    if(pt&&!(r.product_type||'').toLowerCase().includes(pt)) return false;
+function applyFilters() {
+  var kw = document.getElementById('fKw').value.trim().toLowerCase();
+  var asin = document.getElementById('fAsin').value.trim().toLowerCase();
+  var pt = document.getElementById('fPt').value.trim().toLowerCase();
+  filteredData = allData.filter(function(r) {
+    if (kw && !(r.keywords||'').toLowerCase().includes(kw)) return false;
+    if (asin && !(r.asin||'').toLowerCase().includes(asin)) return false;
+    if (pt && !(r.product_type||'').toLowerCase().includes(pt)) return false;
     return true;
   });
-  if(sortCol) doSort();
-  currentPage=1; render();
+  if (sortCol) doSort();
+  currentPage = 1; render();
 }
-function clearFilters(){document.getElementById('fKw').value='';document.getElementById('fAsin').value='';document.getElementById('fPt').value='';applyFilters();}
-function sortBy(col){if(sortCol===col)sortAsc=!sortAsc;else{sortCol=col;sortAsc=true;}doSort();currentPage=1;render();}
-function doSort(){filteredData.sort(function(a,b){var va=(a[sortCol]||'').toLowerCase(),vb=(b[sortCol]||'').toLowerCase();return sortAsc?va.localeCompare(vb):vb.localeCompare(va);});}
+function clearFilters() { document.getElementById('fKw').value=''; document.getElementById('fAsin').value=''; document.getElementById('fPt').value=''; applyFilters(); }
+function sortBy(col) { if (sortCol===col) sortAsc=!sortAsc; else { sortCol=col; sortAsc=true; } doSort(); currentPage=1; render(); }
+function doSort() { filteredData.sort(function(a,b){ var va=(a[sortCol]||'').toLowerCase(),vb=(b[sortCol]||'').toLowerCase(); return sortAsc?va.localeCompare(vb):vb.localeCompare(va); }); }
 
-function render(){
-  var total=filteredData.length, pages=Math.max(1,Math.ceil(total/PAGE));
-  if(currentPage>pages) currentPage=pages;
-  var start=(currentPage-1)*PAGE, slice=filteredData.slice(start,start+PAGE);
-  document.getElementById('totalCount').textContent=allData.length;
-  document.getElementById('showCount').textContent=total;
-  document.getElementById('pgCur').textContent=pages>0?currentPage:'—';
-  document.getElementById('pgTotal').textContent=pages>0?pages:'—';
-  document.getElementById('headerCount').textContent='共 '+allData.length+' 条记录';
-  var tbody=document.getElementById('tblBody');
-  if(slice.length===0){tbody.innerHTML='<tr class="empty-row"><td colspan="12">未找到匹配数据</td></tr>';renderPager(pages);return;}
-  var rows='';
-  for(var i=0;i<slice.length;i++){
-    var r=slice[i],n=start+i+1;
-    var img=r.img_url||'',asin=r.asin||'',ttl=r.title||'',kw=r.keywords||'';
-    var pt=r.product_type||'',q=r.question||'',ri=r.ri_comment||'';
-    var cm=r.comment||'',cu=r.create_user||'',tt=r.tt_link||'',pq=r.pt_qrd_link||'';
-    var imgCell=img?'<div class="c-img"><img src="'+x(img)+'" alt="" onerror="this.parentNode.innerHTML=\'<div class=noimg>N/A</div>\'"></div>':'<div class="c-img"><div class="noimg">N/A</div></div>';
-    var ttCell=tt?'<div class="c-link"><a href="'+x(tt)+'" target="_blank">�� 链接</a></div>':'';
-    var pqCell=pq?'<div class="c-link"><a href="'+x(pq)+'" target="_blank">�� 链接</a></div>':'';
-    rows+='<tr onclick="selRow(this)"><td class="rn">'+n+'</td><td>'+imgCell+'</td>'
-      +'<td class="c-asin" title="'+x(asin)+'">'+x(asin)+'</td>'
-      +'<td title="'+x(ttl)+'">'+x(ttl)+'</td>'
-      +'<td class="c-kw" title="'+x(kw)+'">'+x(kw)+'</td>'
-      +'<td>'+(pt?'<span class="c-pt">'+x(pt)+'</span>':'')+'</td>'
-      +'<td title="'+x(q)+'">'+x(q)+'</td>'
-      +'<td title="'+x(ri)+'">'+x(ri)+'</td>'
-      +'<td title="'+x(cm)+'">'+x(cm)+'</td>'
-      +'<td title="'+x(cu)+'">'+x(cu)+'</td>'
-      +'<td>'+ttCell+'</td><td>'+pqCell+'</td></tr>';
+function render() {
+  var total = filteredData.length, pages = Math.max(1, Math.ceil(total/PAGE));
+  if (currentPage > pages) currentPage = pages;
+  var start = (currentPage-1)*PAGE, slice = filteredData.slice(start, start+PAGE);
+  document.getElementById('totalCount').textContent = allData.length;
+  document.getElementById('showCount').textContent = total;
+  document.getElementById('pgCur').textContent = pages > 0 ? currentPage : '—';
+  document.getElementById('pgTotal').textContent = pages > 0 ? pages : '—';
+  document.getElementById('headerCount').textContent = '共 ' + allData.length + ' 条记录';
+  var tbody = document.getElementById('tblBody');
+  if (slice.length === 0) { tbody.innerHTML = '<tr class="empty-row"><td colspan="12">未找到匹配数据</td></tr>'; renderPager(pages); return; }
+  var rows = '';
+  for (var i = 0; i < slice.length; i++) {
+    var r = slice[i], n = start + i + 1;
+    var img = r.img_url||'', asin = r.asin||'', ttl = r.title||'', kw = r.keywords||'';
+    var pt = r.product_type||'', q = r.question||'', ri = r.ri_comment||'';
+    var cm = r.comment||'', cu = r.create_user||'', tt = r.tt_link||'', pq = r.pt_qrd_link||'';
+
+    var imgCell = img
+      ? '<div class="c-img"><img src="'+x(img)+'" alt="" onerror="this.parentNode.innerHTML=\'<div class=noimg>N/A</div>\'"></div>'
+      : '<div class="c-img"><div class="noimg">N/A</div></div>';
+
+    // 链接处理：直接使用原始URL，不做任何修改
+    var ttCell = '';
+    if (tt) {
+      var ttUrl = tt.trim();
+      if (ttUrl.indexOf('http') !== 0) ttUrl = 'https://' + ttUrl;
+      ttCell = '<div class="c-link"><a href="'+x(ttUrl)+'" target="_blank" rel="noopener">   链接</a></div>';
+    }
+    var pqCell = '';
+    if (pq) {
+      var pqUrl = pq.trim();
+      if (pqUrl.indexOf('http') !== 0) pqUrl = 'https://' + pqUrl;
+      pqCell = '<div class="c-link"><a href="'+x(pqUrl)+'" target="_blank" rel="noopener">   链接</a></div>';
+    }
+
+    rows += '<tr onclick="selRow(this)">'
+      + '<td class="rn">'+n+'</td>'
+      + '<td>'+imgCell+'</td>'
+      + '<td class="c-asin" title="'+x(asin)+'">'+x(asin)+'</td>'
+      + '<td title="'+x(ttl)+'">'+x(ttl)+'</td>'
+      + '<td class="c-kw" title="'+x(kw)+'">'+x(kw)+'</td>'
+      + '<td>'+(pt?'<span class="c-pt">'+x(pt)+'</span>':'')+'</td>'
+      + '<td title="'+x(q)+'">'+x(q)+'</td>'
+      + '<td title="'+x(ri)+'">'+x(ri)+'</td>'
+      + '<td title="'+x(cm)+'">'+x(cm)+'</td>'
+      + '<td title="'+x(cu)+'">'+x(cu)+'</td>'
+      + '<td>'+ttCell+'</td>'
+      + '<td>'+pqCell+'</td>'
+      + '</tr>';
   }
-  tbody.innerHTML=rows;
+  tbody.innerHTML = rows;
   renderPager(pages);
 }
-function selRow(tr){document.querySelectorAll('#tblBody tr.selected').forEach(function(r){r.classList.remove('selected');});tr.classList.add('selected');}
-function renderPager(pages){
-  var pg=document.getElementById('pager');
-  if(pages<=1){pg.innerHTML='';return;}
-  var h='<button class="pg-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+'>‹ 上一页</button>';
-  var range=[];
-  for(var i=1;i<=pages;i++){if(i===1||i===pages||(i>=currentPage-2&&i<=currentPage+2))range.push(i);else if(range[range.length-1]!=='…')range.push('…');}
-  range.forEach(function(p){if(p==='…')h+='<span style="padding:0 5px;color:#b0c4d4">…</span>';else h+='<button class="pg-btn '+(p===currentPage?'active':'')+'" onclick="goPage('+p+')">'+p+'</button>';});
-  h+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage===pages?'disabled':'')+'>下一页 ›</button><span class="pg-info">每页 '+PAGE+' 条</span>';
-  pg.innerHTML=h;
+
+function selRow(tr) { document.querySelectorAll('#tblBody tr.selected').forEach(function(r){r.classList.remove('selected');}); tr.classList.add('selected'); }
+
+function renderPager(pages) {
+  var pg = document.getElementById('pager');
+  if (pages <= 1) { pg.innerHTML = ''; return; }
+  var h = '<button class="pg-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+'>‹ 上一页</button>';
+  var range = [];
+  for (var i=1; i<=pages; i++) { if(i===1||i===pages||(i>=currentPage-2&&i<=currentPage+2)) range.push(i); else if(range[range.length-1]!=='…') range.push('…'); }
+  range.forEach(function(p){ if(p==='…') h+='<span style="padding:0 5px;color:#b0c4d4">…</span>'; else h+='<button class="pg-btn '+(p===currentPage?'active':'')+'" onclick="goPage('+p+')">'+p+'</button>'; });
+  h += '<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage===pages?'disabled':'')+'>下一页 ›</button>';
+  h += '<span class="pg-info">每页 '+PAGE+' 条</span>';
+  pg.innerHTML = h;
 }
-function goPage(p){var pages=Math.ceil(filteredData.length/PAGE);if(p<1||p>pages)return;currentPage=p;render();document.getElementById('tblOuter').scrollTop=0;}
-function x(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
+function goPage(p) { var pages=Math.ceil(filteredData.length/PAGE); if(p<1||p>pages) return; currentPage=p; render(); document.getElementById('tblOuter').scrollTop=0; }
+function x(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function setProgress(pct, label) { document.getElementById('progressWrap').classList.add('show'); document.getElementById('progressFill').style.width=pct+'%'; document.getElementById('progressLabel').textContent=label; }
+function hideProgress() { document.getElementById('progressWrap').classList.remove('show'); }
+function showToast(msg) { var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},3000); }
 </script>
 </body>
 </html>
